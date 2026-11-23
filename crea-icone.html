@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Icone RinasciCaos</title>
+<style>
+body{
+font-family:Georgia,serif;
+background:#f4f0e5;
+color:#43583d;
+text-align:center;
+padding:25px;
+}
+button{
+background:#43583d;
+color:white;
+border:0;
+border-radius:10px;
+padding:15px 22px;
+font-size:17px;
+margin:12px;
+}
+img{
+width:180px;
+height:180px;
+border-radius:20px;
+}
+</style>
+</head>
+<body>
+
+<h1>RinasciCaos</h1>
+<p>Generatore delle icone ufficiali</p>
+
+<img src="images/logo-rinascicaos.svg" alt="Logo RinasciCaos">
+
+<div>
+<button onclick="downloadIcon(192)">Scarica icona 192</button>
+<button onclick="downloadIcon(512)">Scarica icona 512</button>
+</div>
+
+<p id="status">Pronto per creare le icone.</p>
+
+<script>
+async function downloadIcon(size){
+
+try{
+
+const response=await fetch("./images/logo-rinascicaos.svg");
+
+if(!response.ok)throw new Error("Logo non trovato");
+
+const svg=await response.text();
+
+const blob=new Blob([svg],{
+type:"image/svg+xml;charset=utf-8"
+});
+
+const url=URL.createObjectURL(blob);
+const img=new Image();
+
+img.onload=()=>{
+
+const canvas=document.createElement("canvas");
+canvas.width=size;
+canvas.height=size;
+
+const ctx=canvas.getContext("2d");
+
+ctx.fillStyle="#43583d";
+ctx.fillRect(0,0,size,size);
+
+ctx.drawImage(img,0,0,size,size);
+
+canvas.toBlob(png=>{
+
+if(!png){
+document.getElementById("status").textContent=
+"Errore nella creazione dell'immagine.";
+URL.revokeObjectURL(url);
+return;
+}
+
+const link=document.createElement("a");
+link.href=URL.createObjectURL(png);
+link.download="icon-"+size+".png";
+link.click();
+
+document.getElementById("status").textContent=
+"Icona "+size+" creata. Controlla i download del tablet.";
+
+URL.revokeObjectURL(url);
+
+},"image/png");
+
+};
+
+img.onerror=()=>{
+document.getElementById("status").textContent=
+"Impossibile leggere il logo SVG.";
+URL.revokeObjectURL(url);
+};
+
+img.src=url;
+
+}catch(error){
+
+document.getElementById("status").textContent=
+"Errore: controlla che il logo sia presente nella cartella images.";
+
+}
+
+}
+</script>
+
+</body>
+</html>
