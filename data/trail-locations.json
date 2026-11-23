@@ -1,0 +1,168 @@
+
+[
+  {
+    "LocationID": "L001",
+    "PlantID": "P001",
+    "LocationName": "Ulivo",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 1,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L002",
+    "PlantID": "P002",
+    "LocationName": "Mandorlo",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 2,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L003",
+    "PlantID": "P003",
+    "LocationName": "Vite",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 3,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L004",
+    "PlantID": "P004",
+    "LocationName": "Finocchio selvatico",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 4,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L005",
+    "PlantID": "P005",
+    "LocationName": "Limoni",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 5,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L006",
+    "PlantID": "P006",
+    "LocationName": "Carrubo",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 6,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L007",
+    "PlantID": "P007",
+    "LocationName": "Fichi d'India",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 7,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L008",
+    "PlantID": "P008",
+    "LocationName": "Agavi",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 8,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L009",
+    "PlantID": "P009",
+    "LocationName": "Tarassaco",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 9,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L010",
+    "PlantID": "P010",
+    "LocationName": "Asfodelo",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 10,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L011",
+    "PlantID": "P011",
+    "LocationName": "Sulla",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 11,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L012",
+    "PlantID": "P012",
+    "LocationName": "Cardi",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 12,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L013",
+    "PlantID": "P013",
+    "LocationName": "Malva",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 13,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L014",
+    "PlantID": "P014",
+    "LocationName": "Ortica",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 14,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  },
+  {
+    "LocationID": "L015",
+    "PlantID": "P015",
+    "LocationName": "Pino",
+    "Latitude": null,
+    "Longitude": null,
+    "TrailOrder": 15,
+    "LocationStatus": "Da mappare",
+    "LocationDescription": "Da aggiungere",
+    "IsVerified": false
+  }
+]
