@@ -7,481 +7,225 @@
 <meta name="theme-color" content="#43583d">
 <title>RinasciCaos – Le radici di Pirandello</title>
 <style>
-:root {
-  --verde:#43583d;
-  --oliva:#71805b;
-  --crema:#f4f0e5;
-  --terra:#a47753;
-  --bianco:#fffdf7;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;
-  background:var(--crema);
-  color:#292d25;
-  font-family:Georgia,serif;
-  line-height:1.6;
-}
-header {
-  background:var(--verde);
-  color:white;
-  padding:35px 20px;
-  text-align:center;
-}
-header h1 {font-size:38px;margin:8px 0}
-header p {color:#e8e8d9;margin:5px}
-nav {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:8px;
-  background:var(--bianco);
-  padding:12px;
-  position:sticky;
-  top:0;
-  z-index:5;
-  box-shadow:0 2px 8px #0001;
-}
-button,select,input {font:inherit}
-nav button {
-  border:0;
-  border-radius:20px;
-  padding:11px 15px;
-  background:#e8eadc;
-  color:var(--verde);
-  font-weight:bold;
-  cursor:pointer;
-}
-main {max-width:1000px;margin:auto;padding:20px}
-section {display:none}
-section.active {display:block}
-.hero {
-  background:linear-gradient(140deg,#344a35,#89906a);
-  color:white;
-  padding:55px 25px;
-  border-radius:18px;
-  text-align:center;
-}
-.hero h2 {font-size:34px;line-height:1.2}
-.primary {
-  background:var(--terra);
-  color:white;
-  padding:14px 22px;
-  border:0;
-  border-radius:9px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
-  margin-top:20px;
-}
-.card {
-  background:var(--bianco);
-  border-radius:13px;
-  padding:19px;
-  box-shadow:0 3px 12px #00008;
-}
-.card h3 {color:var(--verde);margin-top:0}
-.card button,.secondary {
-  background:var(--verde);
-  color:white;
-  border:0;
-  padding:11px 15px;
-  border-radius:8px;
-  cursor:pointer;
-}
-.controls {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:10px;
-  margin:18px 0;
-}
-.controls input,.controls select {
-  width:100%;
-  min-height:46px;
-  border:1px solid #c9c9b9;
-  border-radius:9px;
-  padding:10px;
-  background:white;
-}
-.plant-card {
-  background:var(--bianco);
-  border-radius:13px;
-  padding:18px;
-  border:1px solid #e4e0d3;
-}
-.plant-card h3 {color:var(--verde);margin:5px 0}
-.scientific {font-style:italic;color:#686b60}
-.tag {
-  display:inline-block;
-  background:#e8eadc;
-  color:#43583d;
-  border-radius:20px;
-  padding:4px 10px;
-  font-size:12px;
-  margin:3px 0;
-}
-.plant-photo {
-  width:100%;
-  height:145px;
-  border-radius:9px;
-  background:#e9e6d9;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#666;
-  margin-bottom:12px;
-  text-align:center;
-  font-size:14px;
-}
-.detail-photo {
-  height:200px;
-}
-.detail-box {
-  background:var(--bianco);
-  padding:20px;
-  border-radius:13px;
-  margin:15px 0;
-}
-.detail-box h3 {color:var(--verde)}
-.back {
-  background:#e8eadc;
-  color:var(--verde);
-  border:0;
-  padding:12px 16px;
-  border-radius:8px;
-  cursor:pointer;
-}
-.notice {
-  padding:12px;
-  border-left:4px solid var(--terra);
-  background:#eee9dc;
-  border-radius:5px;
-}
-footer {
-  background:var(--verde);
-  color:white;
-  text-align:center;
-  padding:25px;
-  margin-top:35px;
-}
-small {color:#777}
-@media(max-width:500px) {
-  header h1 {font-size:32px}
-  main {padding:14px}
-  nav {justify-content:flex-start;overflow-x:auto}
-  nav button {white-space:nowrap}
-}
+:root{--verde:#43583d;--crema:#f4f0e5;--terra:#a47753;--bianco:#fffdf7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:#292d25;font-family:Georgia,serif;line-height:1.6}
+header{background:var(--verde);color:white;text-align:center;padding:30px 15px}
+header h1{font-size:36px;margin:8px}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;background:white;padding:12px;position:sticky;top:0;z-index:5}
+button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:12px;background:var(--verde);color:white}
+nav button{background:#e8eadc;color:var(--verde);border-radius:20px}
+main{max-width:1000px;margin:auto;padding:18px}
+section{display:none}
+section.active{display:block}
+.hero{background:linear-gradient(140deg,#344a35,#89906a);color:white;text-align:center;padding:50px 20px;border-radius:18px}
+.hero button{background:var(--terra)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:20px}
+.card,.plant-card,.detail-box{background:var(--bianco);padding:18px;border-radius:13px}
+.plant-card h3,.detail-box h3{color:var(--verde)}
+.scientific{font-style:italic;color:#686b60}
+.tag{display:inline-block;background:#e8eadc;color:var(--verde);padding:4px 10px;border-radius:20px;font-size:12px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0}
+.controls input,.controls select{width:100%;padding:12px;border:1px solid #bbb;border-radius:9px;background:white}
+.plant-photo{width:100%;height:155px;object-fit:cover;border-radius:9px;background:#e9e6d9;display:flex;align-items:center;justify-content:center;color:#666;text-align:center;margin-bottom:12px}
+.detail-photo{height:240px}
+.back{background:#e8eadc;color:var(--verde);margin-bottom:15px}
+.notice{background:#eee9dc;border-left:4px solid var(--terra);padding:12px}
+footer{background:var(--verde);color:white;text-align:center;padding:25px;margin-top:35px}
 </style>
 </head>
 <body>
-
 <header>
-  <p>CONTRADA CAOS · AGRIGENTO</p>
-  <h1>RinasciCaos</h1>
-  <p><i>Le radici di Pirandello</i></p>
-  <p>Un viaggio botanico e letterario nella memoria di Contrada Caos.</p>
+<p>CONTRADA CAOS · AGRIGENTO</p>
+<h1>RinasciCaos</h1>
+<p><i>Le radici di Pirandello</i></p>
+<p>Un viaggio botanico e letterario nella memoria di Contrada Caos.</p>
 </header>
-
-<nav aria-label="Navigazione principale">
-  <button onclick="show('home')">Home</button>
-  <button onclick="show('map')">La mappa</button>
-  <button onclick="show('plants')">Atlante botanico</button>
-  <button onclick="show('literature')">Pirandello</button>
-  <button onclick="show('project')">Il progetto</button>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('map')">La mappa</button>
+<button onclick="show('plants')">Atlante botanico</button>
+<button onclick="show('literature')">Pirandello</button>
+<button onclick="show('project')">Il progetto</button>
 </nav>
-
 <main>
-
 <section id="home" class="active">
-  <div class="hero">
-    <h2>La natura racconta.</h2>
-    <p>Scopri le piante, i profumi e la memoria letteraria di Contrada Caos.</p>
-    <button class="primary" onclick="show('plants')">INIZIA IL VIAGGIO</button>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <h3>La mappa botanica</h3>
-      <p>Esplora il percorso e i suoi punti di interesse.</p>
-      <button onclick="show('map')">Esplora</button>
-    </div>
-    <div class="card">
-      <h3>Atlante botanico</h3>
-      <p>Conosci le 15 specie del progetto.</p>
-      <button onclick="show('plants')">Scopri le piante</button>
-    </div>
-    <div class="card">
-      <h3>Pirandello e la natura</h3>
-      <p>Il paesaggio incontra la memoria letteraria.</p>
-      <button onclick="show('literature')">Scopri</button>
-    </div>
-  </div>
+<div class="hero">
+<h2>La natura racconta.</h2>
+<p>Scopri le piante, i profumi e la memoria letteraria di Contrada Caos.</p>
+<button onclick="show('plants')">INIZIA IL VIAGGIO</button>
+</div>
+<div class="grid">
+<div class="card"><h3>La mappa botanica</h3><p>Esplora il percorso.</p><button onclick="show('map')">Esplora</button></div>
+<div class="card"><h3>Atlante botanico</h3><p>Scopri le specie del progetto.</p><button onclick="show('plants')">Scopri</button></div>
+<div class="card"><h3>Pirandello</h3><p>Il paesaggio incontra la memoria letteraria.</p><button onclick="show('literature')">Scopri</button></div>
+</div>
 </section>
-
 <section id="map">
-  <h2>Il percorso botanico</h2>
-  <p>Le posizioni delle specie saranno visualizzate dopo il rilievo sul campo.</p>
-  <div class="notice">Mappa in preparazione. I punti botanici sono ancora da mappare.</div>
-  <div id="mapPlants" class="grid"></div>
+<h2>Il percorso botanico</h2>
+<p class="notice">Le posizioni delle specie sono ancora da mappare. Le coordinate saranno inserite dopo il rilievo sul campo.</p>
+<div id="mapPlants" class="grid"></div>
 </section>
-
 <section id="plants">
-  <h2>Atlante botanico</h2>
-  <p>Le specie vegetali del progetto RinasciCaos.</p>
-
-  <div class="controls">
-    <input id="search" type="search"
-      placeholder="Cerca una pianta..."
-      aria-label="Cerca una pianta">
-    <select id="categoryFilter" aria-label="Categoria">
-      <option value="">Tutte le categorie</option>
-      <option value="Paesaggio coltivato e vita rurale">Paesaggio coltivato</option>
-      <option value="Scoperta sensoriale">Scoperta sensoriale</option>
-      <option value="Sopravvivenza e resilienza">Sopravvivenza e resilienza</option>
-      <option value="Paesaggio letterario e simbolico">Paesaggio letterario</option>
-    </select>
-    <input id="localFilter" type="search"
-      placeholder="Nome siciliano..."
-      aria-label="Cerca per nome locale">
-    <select id="themeFilter" aria-label="Tema letterario">
-      <option value="">Tutti i temi</option>
-      <option value="Fatica">Fatica</option>
-      <option value="Isolamento">Isolamento</option>
-      <option value="Memoria / Morte">Memoria / Morte</option>
-      <option value="L’anima di Pirandello">L'anima di Pirandello</option>
-    </select>
-    <select id="quoteFilter" aria-label="Citazioni verificate">
-      <option value="">Tutte le citazioni</option>
-      <option value="yes">Con citazione verificata</option>
-      <option value="no">Senza citazione verificata</option>
-    </select>
-  </div>
-
-  <p id="count" aria-live="polite">Caricamento catalogo...</p>
-  <div id="catalogue" class="grid"></div>
+<h2>Atlante botanico</h2>
+<p>Le specie vegetali del progetto RinasciCaos.</p>
+<div class="controls">
+<input id="search" placeholder="Cerca una pianta...">
+<select id="categoryFilter">
+<option value="">Tutte le categorie</option>
+<option>Paesaggio coltivato e vita rurale</option>
+<option>Scoperta sensoriale</option>
+<option>Sopravvivenza e resilienza</option>
+<option>Paesaggio letterario e simbolico</option>
+</select>
+<input id="localFilter" placeholder="Nome siciliano...">
+<select id="quoteFilter">
+<option value="">Tutte le citazioni</option>
+<option value="yes">Con citazione verificata</option>
+<option value="no">Senza citazione verificata</option>
+</select>
+</div>
+<p id="count">Caricamento...</p>
+<div id="catalogue" class="grid"></div>
 </section>
-
 <section id="detail">
-  <button class="back" onclick="show('plants')">← Torna al catalogo</button>
-  <div id="plantDetail"></div>
-  <button class="back" onclick="show('map')">← Torna alla mappa</button>
+<button class="back" onclick="show('plants')">← Torna al catalogo</button>
+<div id="plantDetail"></div>
+<button class="back" onclick="show('map')">← Torna alla mappa</button>
 </section>
-
 <section id="literature">
-  <h2>La memoria letteraria</h2>
-  <p>Le citazioni saranno inserite esclusivamente dopo la verifica del testo e della fonte da parte del gruppo di progetto.</p>
-  <div class="notice">Contenuti letterari da verificare e aggiungere.</div>
-  <div id="literaryList" class="grid"></div>
+<h2>La memoria letteraria</h2>
+<p>Le citazioni saranno inserite soltanto dopo la verifica del testo e della fonte.</p>
+<div id="literaryList" class="grid"></div>
 </section>
-
 <section id="project">
-  <h2>Il progetto RinasciCaos</h2>
-  <div class="detail-box">
-    <p>Un progetto proposto dal Rotary Club Agrigento e sviluppato dal Liceo Classico e Musicale Empedocle di Agrigento.</p>
-    <p>Un percorso di valorizzazione botanica, letteraria e ambientale di Contrada Caos.</p>
-  </div>
-  <div class="detail-box">
-    <h3>Proteggere la biodiversità</h3>
-    <p>Conoscere il patrimonio naturale è un primo passo per promuovere il rispetto dell'ambiente.</p>
-    <p>Durante la visita rispetta il sentiero, non raccogliere piante e non lasciare rifiuti.</p>
-  </div>
+<h2>Il progetto RinasciCaos</h2>
+<div class="detail-box">
+<p>Un progetto proposto dal Rotary Club Agrigento e sviluppato dal Liceo Classico e Musicale Empedocle di Agrigento.</p>
+<p>Un percorso di valorizzazione botanica, letteraria e ambientale di Contrada Caos.</p>
+</div>
+<div class="detail-box">
+<h3>Proteggere la biodiversità</h3>
+<p>Conoscere il patrimonio naturale è un primo passo per promuovere il rispetto dell'ambiente.</p>
+<p>Rispetta il sentiero, non raccogliere piante e non lasciare rifiuti.</p>
+</div>
 </section>
-
 </main>
-
 <footer>
-  <strong>RinasciCaos – Le radici di Pirandello</strong>
-  <p>La natura, la memoria, il paesaggio.</p>
-  <small>Progetto del Rotary Club Agrigento e del Liceo Empedocle.</small>
+<strong>RinasciCaos – Le radici di Pirandello</strong>
+<p>La natura, la memoria, il paesaggio.</p>
+<p>Rotary Club Agrigento · Liceo Empedocle</p>
 </footer>
-
 <script>
-let plants = [];
+let plants=[];
+const $=id=>document.getElementById(id);
 
-const $ = id => document.getElementById(id);
-
-function show(id) {
-  document.querySelectorAll("main section")
-    .forEach(s => s.classList.remove("active"));
-  $(id).classList.add("active");
-  window.scrollTo(0,0);
-
-  if (id === "plants") renderCatalogue();
-  if (id === "map") renderMapList();
-  if (id === "literature") renderLiterature();
+function show(id){
+document.querySelectorAll("main section").forEach(s=>s.classList.remove("active"));
+$(id).classList.add("active");
+window.scrollTo(0,0);
+if(id==="plants")renderCatalogue();
+if(id==="map")renderMap();
+if(id==="literature")renderLiterature();
 }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[char]));
+function esc(v){
+return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-function renderCatalogue() {
-  const search = $("search").value.toLowerCase().trim();
-  const category = $("categoryFilter").value;
-  const local = $("localFilter").value.toLowerCase().trim();
-  const theme = $("themeFilter").value;
-  const quote = $("quoteFilter").value;
-
-  const filtered = plants.filter(p => {
-    const text = [
-      p.CommonName, p.LocalName, p.ScientificName
-    ].join(" ").toLowerCase();
-
-    const hasQuote = (p.LiteraryReferences || [])
-      .some(r => r.Verified === true && r.Quotation);
-
-    return (!search || text.includes(search)) &&
-      (!category || p.BotanicalCategory === category) &&
-      (!local || (p.LocalName || "").toLowerCase().includes(local)) &&
-      (!theme || (p.LiteraryTheme || []).includes(theme)) &&
-      (!quote || (quote === "yes" ? hasQuote : !hasQuote));
-  });
-
-  $("count").textContent =
-    filtered.length + " specie trovate su " + plants.length;
-
-  $("catalogue").innerHTML = filtered.length
-    ? filtered.map(p => `
-      <article class="plant-card">
-        <div class="plant-photo">Fotografia da aggiungere</div>
-        <span class="tag">${escapeHTML(p.BotanicalCategory)}</span>
-        <h3>${escapeHTML(p.CommonName)}</h3>
-        <p class="scientific">${escapeHTML(p.ScientificName)}</p>
-        <p>Nome locale: ${escapeHTML(p.LocalName || "Da aggiungere")}</p>
-        <p>${escapeHTML(p.BotanicalDescription)}</p>
-        <button onclick="openPlant('${escapeHTML(p.PlantID)}')">
-          Scopri la pianta
-        </button>
-      </article>
-    `).join("")
-    : "<p>Nessuna pianta trovata. Modifica i filtri.</p>";
+function photo(p,detail=false){
+const height=detail?240:155;
+const name=esc(p.CommonName);
+const url="images/"+encodeURIComponent(p.PlantID)+".png";
+return `<img class="plant-photo ${detail?"detail-photo":""}"
+src="${url}" alt="${name}"
+style="height:${height}px"
+onerror="this.outerHTML='<div class=\\'plant-photo\\' style=\\'height:${height}px\\'>Fotografia da aggiungere</div>'">`;
 }
 
-function openPlant(id) {
-  const p = plants.find(item => item.PlantID === id);
-  if (!p) return;
-
-  const refs = (p.LiteraryReferences || [])
-    .filter(r => r.Verified === true && r.Quotation);
-
-  $("plantDetail").innerHTML = `
-    <div class="detail-photo plant-photo">Fotografia da aggiungere</div>
-    <span class="tag">${escapeHTML(p.BotanicalCategory)}</span>
-    <h2>${escapeHTML(p.CommonName)}</h2>
-    <p><strong>Nome locale:</strong> ${escapeHTML(p.LocalName || "Da aggiungere")}</p>
-    <p class="scientific">${escapeHTML(p.ScientificName)}</p>
-
-    <div class="detail-box">
-      <h3>Descrizione botanica</h3>
-      <p>${escapeHTML(p.BotanicalDescription)}</p>
-    </div>
-    <div class="detail-box">
-      <h3>Ruolo nell'ecosistema</h3>
-      <p>${escapeHTML(p.EcologicalRole)}</p>
-    </div>
-    <div class="detail-box">
-      <h3>Paesaggio e letteratura</h3>
-      ${refs.length ? refs.map(r => `
-        <blockquote>
-          ${escapeHTML(r.Quotation)}
-        </blockquote>
-        <p>${escapeHTML(r.LiteraryWork)} – ${escapeHTML(r.Author)}</p>
-        <small>Fonte: ${escapeHTML(r.Source)}</small>
-      `).join("") : "<p>Citazione letteraria: contenuto da aggiungere e verificare.</p>"}
-    </div>
-    <div class="detail-box">
-      <h3>Temi letterari</h3>
-      <p>${(p.LiteraryTheme || []).length
-        ? p.LiteraryTheme.map(escapeHTML).join(", ")
-        : "Temi non ancora documentati."}</p>
-    </div>
-    <div class="detail-box">
-      <h3>Conservazione</h3>
-      <p>${escapeHTML(p.ConservationMessage)}</p>
-    </div>
-    <div class="detail-box">
-      <h3>Posizione sul percorso</h3>
-      <p>${escapeHTML(p.LocationStatus || "Da mappare")}</p>
-    </div>
-  `;
-
-  show("detail");
+function hasVerifiedQuote(p){
+return (p.LiteraryReferences||[]).some(r=>r.Verified===true&&r.Quotation);
 }
 
-function renderMapList() {
-  $("mapPlants").innerHTML = plants.map(p => `
-    <article class="plant-card">
-      <h3>${escapeHTML(p.CommonName)}</h3>
-      <p class="scientific">${escapeHTML(p.ScientificName)}</p>
-      <span class="tag">${escapeHTML(p.LocationStatus || "Da mappare")}</span>
-      <button onclick="openPlant('${escapeHTML(p.PlantID)}')">
-        Scheda botanica
-      </button>
-    </article>
-  `).join("");
-}
-
-function renderLiterature() {
-  const entries = plants.flatMap(p =>
-    (p.LiteraryReferences || [])
-      .filter(r => r.Verified === true && r.Quotation)
-      .map(r => ({plant:p, reference:r}))
-  );
-
-  $("literaryList").innerHTML = entries.length
-    ? entries.map(e => `
-      <article class="plant-card">
-        <blockquote>${escapeHTML(e.reference.Quotation)}</blockquote>
-        <p>${escapeHTML(e.reference.LiteraryWork)} – ${escapeHTML(e.reference.Author)}</p>
-        <small>Fonte: ${escapeHTML(e.reference.Source)}</small>
-        <h3>${escapeHTML(e.plant.CommonName)}</h3>
-        <button onclick="openPlant('${escapeHTML(e.plant.PlantID)}')">
-          Scopri la pianta
-        </button>
-      </article>
-    `).join("")
-    : "<p>Nessuna citazione verificata è ancora presente nell'archivio.</p>";
-}
-
-async function loadPlants() {
-  $("count").textContent = "Caricamento catalogo...";
-
-  try {
-    const response = await fetch("./data/plants.json");
-    if (!response.ok) throw new Error("File non disponibile");
-
-    const data = await response.json();
-    if (!Array.isArray(data)) throw new Error("Formato archivio non valido");
-
-    plants = data.filter(p => p.IsPublished === true);
-    renderCatalogue();
-    renderMapList();
-  } catch (error) {
-    $("count").textContent = "Impossibile caricare il catalogo.";
-    $("catalogue").innerHTML =
-      "<p>Controlla che data/plants.json sia presente e contenga JSON valido. Riprova dopo aver aggiornato il sito.</p>";
-  }
-}
-
-["search","categoryFilter","localFilter","themeFilter","quoteFilter"]
-.forEach(id => {
-  $(id).addEventListener(
-    id === "search" || id === "localFilter" ? "input" : "change",
-    renderCatalogue
-  );
+function renderCatalogue(){
+const search=$("search").value.toLowerCase().trim();
+const category=$("categoryFilter").value;
+const local=$("localFilter").value.toLowerCase().trim();
+const quote=$("quoteFilter").value;
+const filtered=plants.filter(p=>{
+const text=[p.CommonName,p.LocalName,p.ScientificName].join(" ").toLowerCase();
+const has=hasVerifiedQuote(p);
+return (!search||text.includes(search))&&
+(!category||p.BotanicalCategory===category)&&
+(!local||(p.LocalName||"").toLowerCase().includes(local))&&
+(!quote||(quote==="yes"?has:!has));
 });
+$("count").textContent=filtered.length+" specie trovate su "+plants.length;
+$("catalogue").innerHTML=filtered.length?filtered.map(p=>`
+<article class="plant-card">
+${photo(p)}
+<span class="tag">${esc(p.BotanicalCategory)}</span>
+<h3>${esc(p.CommonName)}</h3>
+<p class="scientific">${esc(p.ScientificName)}</p>
+<p>Nome locale: ${esc(p.LocalName||"Da aggiungere")}</p>
+<button onclick="openPlant('${esc(p.PlantID)}')">Scopri la pianta</button>
+</article>`).join(""):"<p>Nessuna pianta trovata.</p>";
+}
 
+function openPlant(id){
+const p=plants.find(x=>x.PlantID===id);
+if(!p)return;
+const refs=(p.LiteraryReferences||[]).filter(r=>r.Verified===true&&r.Quotation);
+$("plantDetail").innerHTML=`
+${photo(p,true)}
+<h2>${esc(p.CommonName)}</h2>
+<p><strong>Nome locale:</strong> ${esc(p.LocalName||"Da aggiungere")}</p>
+<p class="scientific">${esc(p.ScientificName)}</p>
+<div class="detail-box"><h3>Descrizione botanica</h3><p>${esc(p.BotanicalDescription)}</p></div>
+<div class="detail-box"><h3>Ruolo nell'ecosistema</h3><p>${esc(p.EcologicalRole)}</p></div>
+<div class="detail-box"><h3>Paesaggio e letteratura</h3>
+${refs.length?refs.map(r=>`<blockquote>${esc(r.Quotation)}</blockquote><p>${esc(r.LiteraryWork)} – ${esc(r.Author)}</p><small>Fonte: ${esc(r.Source)}</small>`).join(""):"<p>Citazione da aggiungere e verificare.</p>"}
+</div>
+<div class="detail-box"><h3>Conservazione</h3><p>${esc(p.ConservationMessage)}</p></div>
+<div class="detail-box"><h3>Posizione sul percorso</h3><p>${esc(p.LocationStatus||"Da mappare")}</p></div>`;
+show("detail");
+}
+
+function renderMap(){
+$("mapPlants").innerHTML=plants.map(p=>`
+<article class="plant-card"><h3>${esc(p.CommonName)}</h3>
+<p class="scientific">${esc(p.ScientificName)}</p>
+<p>${esc(p.LocationStatus||"Da mappare")}</p>
+<button onclick="openPlant('${esc(p.PlantID)}')">Scheda botanica</button></article>`).join("");
+}
+
+function renderLiterature(){
+const entries=plants.flatMap(p=>(p.LiteraryReferences||[])
+.filter(r=>r.Verified===true&&r.Quotation).map(r=>({p,r})));
+$("literaryList").innerHTML=entries.length?entries.map(e=>`
+<article class="plant-card"><blockquote>${esc(e.r.Quotation)}</blockquote>
+<p>${esc(e.r.LiteraryWork)} – ${esc(e.r.Author)}</p>
+<small>${esc(e.r.Source)}</small><h3>${esc(e.p.CommonName)}</h3>
+<button onclick="openPlant('${esc(e.p.PlantID)}')">Scopri la pianta</button></article>`).join(""):"<p>Nessuna citazione verificata presente nell'archivio.</p>";
+}
+
+async function loadPlants(){
+try{
+const response=await fetch("./data/plants.json");
+if(!response.ok)throw new Error("Archivio non disponibile");
+const data=await response.json();
+if(!Array.isArray(data))throw new Error("Formato non valido");
+plants=data.filter(p=>p.IsPublished===true);
+renderCatalogue();
+renderMap();
+}catch(e){
+$("count").textContent="Impossibile caricare il catalogo. Controlla data/plants.json.";
+}
+}
+
+["search","localFilter"].forEach(id=>$(id).addEventListener("input",renderCatalogue));
+["categoryFilter","quoteFilter"].forEach(id=>$(id).addEventListener("change",renderCatalogue));
 loadPlants();
 </script>
-
 </body>
 </html>
