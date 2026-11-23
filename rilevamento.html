@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#43583d">
+<title>RinasciCaos – Rilievo GPS</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#f4f0e5;
+color:#292d25;
+font-family:Georgia,serif;
+line-height:1.6
+}
+header{
+background:#43583d;
+color:white;
+text-align:center;
+padding:25px 15px
+}
+main{
+max-width:650px;
+margin:auto;
+padding:18px
+}
+.box{
+background:#fffdf7;
+padding:20px;
+border-radius:14px;
+margin:15px 0
+}
+label{
+display:block;
+font-weight:bold;
+margin:12px 0 5px
+}
+select,input{
+width:100%;
+padding:13px;
+border:1px solid #bbb;
+border-radius:8px;
+font:inherit;
+background:white
+}
+button{
+width:100%;
+padding:14px;
+border:0;
+border-radius:9px;
+background:#43583d;
+color:white;
+font:inherit;
+margin-top:12px;
+cursor:pointer
+}
+button:disabled{opacity:.5}
+.secondary{background:#a47753}
+.result{
+background:#e8eadc;
+padding:15px;
+border-radius:9px;
+margin-top:15px;
+overflow-wrap:anywhere
+}
+.status{font-size:14px;color:#555}
+footer{text-align:center;padding:20px;color:#555}
+</style>
+</head>
+<body>
+
+<header>
+<h1>RinasciCaos</h1>
+<p>Rilevamento botanico GPS</p>
+</header>
+
+<main>
+
+<div class="box">
+<h2>Identifica la pianta</h2>
+
+<label for="plant">Seleziona la specie</label>
+<select id="plant">
+<option value="">Caricamento archivio...</option>
+</select>
+
+<p id="plantInfo" class="status">
+Seleziona una pianta per iniziare.
+</p>
+</div>
+
+<div class="box">
+<h2>Acquisizione GPS</h2>
+
+<p>
+Posizionati vicino alla pianta e attendi che il tablet
+rilevi la posizione.
+</p>
+
+<button id="gpsButton" onclick="getGPS()">
+◎ RILEVA POSIZIONE GPS
+</button>
+
+<div id="gpsResult" class="result" hidden>
+<strong>Coordinate rilevate</strong>
+<p id="coordinates"></p>
+<p id="accuracy"></p>
+</div>
+
+<p id="status" class="status">
+In attesa del rilevamento.
+</p>
+
+<button id="saveButton" class="secondary"
+onclick="saveLocation()" disabled>
+CONFERMA E REGISTRA POSIZIONE
+</button>
+</div>
+
+<div class="box">
+<h2>Registro dei rilevamenti</h2>
+<p id="counter">Caricamento...</p>
+
+<button onclick="downloadJSON()">
+SCARICA REGISTRO GPS JSON
+</button>
+
+<p class="status">
+Il file scaricato conterrà le coordinate rilevate.
+Potrai successivamente caricarlo nel repository GitHub.
+</p>
+</div>
+
+</main>
+
+<footer>
+RinasciCaos – Le radici di Pirandello
+</footer>
+
+<script>
+let locations=[];
+let plants=[];
+let currentPosition=null;
+
+const $=id=>document.getElementById(id);
+
+async function loadData(){
+
+try{
+
+const [locationResponse,plantResponse]=await Promise.all([
+fetch("./data/trail-locations.json"),
+fetch("./data/plants.json")
+]);
+
+if(!locationResponse.ok||!plantResponse.ok){
+throw new Error("File non disponibile");
+}
+
+locations=await locationResponse.json();
+plants=await plantResponse.json();
+
+if(!Array.isArray(locations)||!Array.isArray(plants)){
+throw new Error("Archivio non valido");
+}
+
+const select=$("plant");
+
+select.innerHTML=
+'<option value="">Seleziona una pianta</option>';
+
+locations.forEach(location=>{
+
+const plant=plants.find(p=>p.PlantID===location.PlantID);
+
+if(!plant)return;
+
+const option=document.createElement("option");
+option.value=location.PlantID;
+option.textContent=plant.CommonName;
+select.appendChild(option);
+
+});
+
+select.addEventListener("change",()=>{
+currentPosition=null;
+$("saveButton").disabled=true;
+$("gpsResult").hidden=true;
+
+const p=plants.find(p=>p.PlantID===select.value);
+
+$("plantInfo").textContent=p?
+p.CommonName+" – "+p.ScientificName:
+"Seleziona una pianta.";
+});
+
+updateCounter();
+
+}catch(error){
+
+$("status").textContent=
+"Errore nel caricamento degli archivi. Controlla i file nella cartella data.";
+
+}
+}
+
+function getGPS(){
+
+if(!$("plant").value){
+$("status").textContent="Prima seleziona una pianta.";
+return;
+}
+
+if(!navigator.geolocation){
+$("status").textContent=
+"Il dispositivo non supporta la geolocalizzazione.";
+return;
+}
+
+currentPosition=null;
+$("saveButton").disabled=true;
+
+$("status").textContent=
+"Rilevamento in corso. Attendi qualche secondo...";
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+currentPosition={
+Latitude:position.coords.latitude,
+Longitude:position.coords.longitude,
+Accuracy:position.coords.accuracy
+};
+
+$("coordinates").textContent=
+"Latitudine: "+currentPosition.Latitude.toFixed(6)+
+" | Longitudine: "+currentPosition.Longitude.toFixed(6);
+
+$("accuracy").textContent=
+"Precisione indicata dal GPS: circa "+
+Math.round(currentPosition.Accuracy)+" metri.";
+
+$("gpsResult").hidden=false;
+
+if(currentPosition.Accuracy>20){
+$("status").textContent=
+"Attenzione: precisione superiore a 20 metri. Prova a ripetere il rilevamento in un punto più aperto.";
+}else{
+$("status").textContent=
+"Posizione acquisita. Controlla che corrisponda alla pianta selezionata.";
+}
+
+$("saveButton").disabled=false;
+
+},
+
+error=>{
+
+const messages={
+1:"Autorizzazione GPS negata. Consenti la posizione al browser.",
+2:"Posizione non disponibile. Riprova all'aperto.",
+3:"Tempo scaduto. Riprova."
+};
+
+$("status").textContent=
+messages[error.code]||"Errore GPS.";
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:20000,
+maximumAge:0
+}
+);
+}
+
+function saveLocation(){
+
+const id=$("plant").value;
+
+if(!id||!currentPosition){
+$("status").textContent="Prima acquisisci una posizione GPS.";
+return;
+}
+
+const location=locations.find(x=>x.PlantID===id);
+
+if(!location)return;
+
+const confirmed=confirm(
+"Confermi che questa posizione corrisponde alla pianta selezionata?"
+);
+
+if(!confirmed)return;
+
+location.Latitude=currentPosition.Latitude;
+location.Longitude=currentPosition.Longitude;
+location.Accuracy=currentPosition.Accuracy;
+location.LocationStatus="Rilevata - da verificare";
+location.IsVerified=false;
+location.RecordedAt=new Date().toISOString();
+
+$("status").textContent=
+"Posizione registrata nel registro temporaneo. Ricordati di scaricare il JSON.";
+
+currentPosition=null;
+$("saveButton").disabled=true;
+updateCounter();
+}
+
+function updateCounter(){
+
+const count=locations.filter(
+x=>x.Latitude!==null&&x.Longitude!==null
+).length;
+
+$("counter").textContent=
+count+" posizioni registrate su "+locations.length+".";
+
+}
+
+function downloadJSON(){
+
+const blob=new Blob(
+[JSON.stringify(locations,null,2)],
+{type:"application/json"}
+);
+
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download="trail-locations.json";
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+loadData();
+</script>
+
+</body>
+</html>
