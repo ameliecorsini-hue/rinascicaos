@@ -5,43 +5,180 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#43583d">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <title>RinasciCaos – Le radici di Pirandello</title>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <style>
-:root{--verde:#43583d;--crema:#f4f0e5;--terra:#a47753;--bianco:#fffdf7}
+:root{
+--verde:#43583d;
+--crema:#f4f0e5;
+--terra:#a47753;
+--bianco:#fffdf7;
+--testo:#292d25;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--crema);color:#292d25;font-family:Georgia,serif;line-height:1.6}
-header{background:var(--verde);color:white;text-align:center;padding:30px 15px}
+body{
+margin:0;
+background:var(--crema);
+color:var(--testo);
+font-family:Georgia,serif;
+line-height:1.6;
+}
+header{
+background:var(--verde);
+color:white;
+text-align:center;
+padding:28px 15px;
+}
 header h1{font-size:36px;margin:8px}
-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;background:white;padding:12px;position:sticky;top:0;z-index:5}
-button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:12px;background:var(--verde);color:white}
-nav button{background:#e8eadc;color:var(--verde);border-radius:20px}
-main{max-width:1000px;margin:auto;padding:18px}
+nav{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:8px;
+background:white;
+padding:12px;
+position:sticky;
+top:0;
+z-index:1000;
+}
+button{
+font:inherit;
+cursor:pointer;
+border:0;
+border-radius:9px;
+padding:13px 17px;
+background:var(--verde);
+color:white;
+}
+button:focus-visible{
+outline:3px solid var(--terra);
+outline-offset:3px;
+}
+nav button{
+background:#e8eadc;
+color:var(--verde);
+border-radius:20px;
+}
+nav button:hover{background:#d7dfca}
+main{max-width:1050px;margin:auto;padding:18px}
 section{display:none}
 section.active{display:block}
-.hero{background:linear-gradient(140deg,#344a35,#89906a);color:white;text-align:center;padding:50px 20px;border-radius:18px}
+.hero{
+background:linear-gradient(140deg,#344a35,#89906a);
+color:white;
+text-align:center;
+padding:55px 20px;
+border-radius:18px;
+}
 .hero button{background:var(--terra)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-top:20px}
-.card,.plant-card,.detail-box{background:var(--bianco);padding:18px;border-radius:13px}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:20px;
+}
+.card,.plant-card,.detail-box{
+background:var(--bianco);
+padding:18px;
+border-radius:13px;
+}
 .plant-card h3,.detail-box h3{color:var(--verde)}
 .scientific{font-style:italic;color:#686b60}
-.tag{display:inline-block;background:#e8eadc;color:var(--verde);padding:4px 10px;border-radius:20px;font-size:12px}
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0}
-.controls input,.controls select{width:100%;padding:12px;border:1px solid #bbb;border-radius:9px;background:white}
-.plant-photo{width:100%;height:155px;object-fit:cover;border-radius:9px;background:#e9e6d9;display:flex;align-items:center;justify-content:center;color:#666;text-align:center;margin-bottom:12px}
-.detail-photo{height:240px}
-.back{background:#e8eadc;color:var(--verde);margin-bottom:15px}
-.notice{background:#eee9dc;border-left:4px solid var(--terra);padding:12px}
-footer{background:var(--verde);color:white;text-align:center;padding:25px;margin-top:35px}
+.tag{
+display:inline-block;
+background:#e8eadc;
+color:var(--verde);
+padding:4px 10px;
+border-radius:20px;
+font-size:12px;
+}
+.controls{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+margin:20px 0;
+}
+.controls input,.controls select{
+width:100%;
+padding:13px;
+border:1px solid #bbb;
+border-radius:9px;
+background:white;
+font:inherit;
+}
+.plant-photo{
+width:100%;
+height:165px;
+object-fit:cover;
+border-radius:9px;
+background:#e9e6d9;
+margin-bottom:12px;
+}
+.detail-photo{height:260px}
+.back{
+background:#e8eadc;
+color:var(--verde);
+margin-bottom:15px;
+}
+.notice{
+background:#eee9dc;
+border-left:4px solid var(--terra);
+padding:13px;
+border-radius:5px;
+}
+#leafletMap{
+width:100%;
+height:430px;
+border-radius:14px;
+border:2px solid #d8d2c2;
+z-index:1;
+background:#e9e6d9;
+}
+.map-actions{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin:15px 0;
+}
+.map-status{
+font-size:14px;
+color:#565b4c;
+}
+.map-card{
+background:white;
+padding:15px;
+border-radius:12px;
+}
+.detail-box{margin:14px 0}
+footer{
+background:var(--verde);
+color:white;
+text-align:center;
+padding:25px;
+margin-top:35px;
+}
+.empty{padding:15px;color:#686b60}
+@media(max-width:500px){
+header h1{font-size:30px}
+main{padding:12px}
+#leafletMap{height:360px}
+nav button{padding:10px 12px;font-size:14px}
+}
 </style>
 </head>
+
 <body>
+
 <header>
 <p>CONTRADA CAOS · AGRIGENTO</p>
 <h1>RinasciCaos</h1>
 <p><i>Le radici di Pirandello</i></p>
 <p>Un viaggio botanico e letterario nella memoria di Contrada Caos.</p>
 </header>
+
 <nav>
 <button onclick="show('home')">Home</button>
 <button onclick="show('map')">La mappa</button>
@@ -49,29 +186,67 @@ footer{background:var(--verde);color:white;text-align:center;padding:25px;margin
 <button onclick="show('literature')">Pirandello</button>
 <button onclick="show('project')">Il progetto</button>
 </nav>
+
 <main>
+
 <section id="home" class="active">
 <div class="hero">
 <h2>La natura racconta.</h2>
 <p>Scopri le piante, i profumi e la memoria letteraria di Contrada Caos.</p>
 <button onclick="show('plants')">INIZIA IL VIAGGIO</button>
 </div>
+
 <div class="grid">
-<div class="card"><h3>La mappa botanica</h3><p>Esplora il percorso.</p><button onclick="show('map')">Esplora</button></div>
-<div class="card"><h3>Atlante botanico</h3><p>Scopri le specie del progetto.</p><button onclick="show('plants')">Scopri</button></div>
-<div class="card"><h3>Pirandello</h3><p>Il paesaggio incontra la memoria letteraria.</p><button onclick="show('literature')">Scopri</button></div>
+<div class="card">
+<h3>La mappa botanica</h3>
+<p>Esplora il territorio e i punti botanici.</p>
+<button onclick="show('map')">Esplora</button>
+</div>
+<div class="card">
+<h3>Atlante botanico</h3>
+<p>Scopri le specie del progetto.</p>
+<button onclick="show('plants')">Scopri</button>
+</div>
+<div class="card">
+<h3>Pirandello</h3>
+<p>Il paesaggio incontra la memoria letteraria.</p>
+<button onclick="show('literature')">Scopri</button>
+</div>
 </div>
 </section>
+
 <section id="map">
-<h2>Il percorso botanico</h2>
-<p class="notice">Le posizioni delle specie sono ancora da mappare. Le coordinate saranno inserite dopo il rilievo sul campo.</p>
+<h2>Il percorso botanico di Contrada Caos</h2>
+
+<p class="notice">
+La mappa mostra il territorio e un punto di riferimento geografico.
+Le posizioni delle singole piante saranno inserite soltanto
+dopo il rilievo sul campo.
+</p>
+
+<div id="leafletMap"></div>
+
+<div class="map-actions">
+<button onclick="locateVisitor()">◎ La mia posizione</button>
+<button onclick="resetMap()">Torna a Contrada Caos</button>
+</div>
+
+<p id="mapStatus" class="map-status">
+Punto di riferimento: Casa Museo Luigi Pirandello.
+Posizioni botaniche da verificare.
+</p>
+
+<h3>Le piante del percorso</h3>
 <div id="mapPlants" class="grid"></div>
 </section>
+
 <section id="plants">
 <h2>Atlante botanico</h2>
 <p>Le specie vegetali del progetto RinasciCaos.</p>
+
 <div class="controls">
 <input id="search" placeholder="Cerca una pianta...">
+
 <select id="categoryFilter">
 <option value="">Tutte le categorie</option>
 <option>Paesaggio coltivato e vita rurale</option>
@@ -79,154 +254,533 @@ footer{background:var(--verde);color:white;text-align:center;padding:25px;margin
 <option>Sopravvivenza e resilienza</option>
 <option>Paesaggio letterario e simbolico</option>
 </select>
+
 <input id="localFilter" placeholder="Nome siciliano...">
+
+<select id="themeFilter">
+<option value="">Tutti i temi letterari</option>
+</select>
+
 <select id="quoteFilter">
 <option value="">Tutte le citazioni</option>
 <option value="yes">Con citazione verificata</option>
 <option value="no">Senza citazione verificata</option>
 </select>
 </div>
+
 <p id="count">Caricamento...</p>
 <div id="catalogue" class="grid"></div>
 </section>
+
 <section id="detail">
-<button class="back" onclick="show('plants')">← Torna al catalogo</button>
+<button class="back" onclick="show(detailOrigin)">
+← Torna indietro
+</button>
 <div id="plantDetail"></div>
-<button class="back" onclick="show('map')">← Torna alla mappa</button>
+<button class="back" onclick="show('map')">
+← Torna alla mappa
+</button>
 </section>
+
 <section id="literature">
 <h2>La memoria letteraria</h2>
-<p>Le citazioni saranno inserite soltanto dopo la verifica del testo e della fonte.</p>
+<p>
+Le citazioni saranno inserite soltanto dopo la verifica
+del testo e della fonte.
+</p>
 <div id="literaryList" class="grid"></div>
 </section>
+
 <section id="project">
 <h2>Il progetto RinasciCaos</h2>
+
 <div class="detail-box">
-<p>Un progetto proposto dal Rotary Club Agrigento e sviluppato dal Liceo Classico e Musicale Empedocle di Agrigento.</p>
-<p>Un percorso di valorizzazione botanica, letteraria e ambientale di Contrada Caos.</p>
+<p>
+Un progetto proposto dal Rotary Club Agrigento
+e sviluppato dal Liceo Classico e Musicale Empedocle
+di Agrigento.
+</p>
+<p>
+Un percorso di valorizzazione botanica, letteraria
+e ambientale di Contrada Caos.
+</p>
 </div>
+
 <div class="detail-box">
 <h3>Proteggere la biodiversità</h3>
-<p>Conoscere il patrimonio naturale è un primo passo per promuovere il rispetto dell'ambiente.</p>
-<p>Rispetta il sentiero, non raccogliere piante e non lasciare rifiuti.</p>
+<p>
+Conoscere il patrimonio naturale è un primo passo
+per promuovere il rispetto dell'ambiente.
+</p>
+<p>
+Rispetta il sentiero, non raccogliere piante
+e non lasciare rifiuti.
+</p>
 </div>
 </section>
+
 </main>
+
 <footer>
 <strong>RinasciCaos – Le radici di Pirandello</strong>
 <p>La natura, la memoria, il paesaggio.</p>
 <p>Rotary Club Agrigento · Liceo Empedocle</p>
 </footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 let plants=[];
+let references=[];
+let leafletMap=null;
+let visitorMarker=null;
+let detailOrigin="plants";
+
 const $=id=>document.getElementById(id);
 
+// Riferimento cartografico della Casa Museo.
+// NON è la posizione di una pianta.
+const CAOS_REFERENCE=[37.291348,13.551764];
+
 function show(id){
-document.querySelectorAll("main section").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll("main section")
+.forEach(s=>s.classList.remove("active"));
+
 $(id).classList.add("active");
 window.scrollTo(0,0);
+
 if(id==="plants")renderCatalogue();
-if(id==="map")renderMap();
+
+if(id==="map"){
+renderMap();
+setTimeout(initLeafletMap,150);
+}
+
 if(id==="literature")renderLiterature();
 }
 
 function esc(v){
-return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+return String(v??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c]));
 }
 
 function photo(p,detail=false){
-const height=detail?240:155;
+const height=detail?260:165;
 const name=esc(p.CommonName);
 const url="images/"+encodeURIComponent(p.PlantID)+".png";
+
 return `<img class="plant-photo ${detail?"detail-photo":""}"
-src="${url}" alt="${name}"
+src="${url}"
+alt="${name}"
 style="height:${height}px"
 onerror="this.outerHTML='<div class=\\'plant-photo\\' style=\\'height:${height}px\\'>Fotografia da aggiungere</div>'">`;
 }
 
+function plantReferences(p){
+return references.filter(r=>r.PlantID===p.PlantID);
+}
+
 function hasVerifiedQuote(p){
-return (p.LiteraryReferences||[]).some(r=>r.Verified===true&&r.Quotation);
+return plantReferences(p).some(r=>
+r.Verified===true &&
+r.Quotation &&
+r.LiteraryWork &&
+r.Source
+);
 }
 
 function renderCatalogue(){
+
 const search=$("search").value.toLowerCase().trim();
 const category=$("categoryFilter").value;
 const local=$("localFilter").value.toLowerCase().trim();
+const theme=$("themeFilter").value;
 const quote=$("quoteFilter").value;
+
 const filtered=plants.filter(p=>{
-const text=[p.CommonName,p.LocalName,p.ScientificName].join(" ").toLowerCase();
+
+const text=[
+p.CommonName,
+p.LocalName,
+p.ScientificName
+].join(" ").toLowerCase();
+
 const has=hasVerifiedQuote(p);
-return (!search||text.includes(search))&&
-(!category||p.BotanicalCategory===category)&&
-(!local||(p.LocalName||"").toLowerCase().includes(local))&&
+
+const themes=Array.isArray(p.LiteraryTheme)
+?p.LiteraryTheme:[];
+
+return (!search||text.includes(search)) &&
+(!category||p.BotanicalCategory===category) &&
+(!local||(p.LocalName||"").toLowerCase().includes(local)) &&
+(!theme||themes.includes(theme)) &&
 (!quote||(quote==="yes"?has:!has));
+
 });
-$("count").textContent=filtered.length+" specie trovate su "+plants.length;
-$("catalogue").innerHTML=filtered.length?filtered.map(p=>`
+
+$("count").textContent=
+filtered.length+" specie trovate su "+plants.length;
+
+$("catalogue").innerHTML=filtered.length?
+filtered.map(p=>`
 <article class="plant-card">
 ${photo(p)}
 <span class="tag">${esc(p.BotanicalCategory)}</span>
 <h3>${esc(p.CommonName)}</h3>
 <p class="scientific">${esc(p.ScientificName)}</p>
 <p>Nome locale: ${esc(p.LocalName||"Da aggiungere")}</p>
-<button onclick="openPlant('${esc(p.PlantID)}')">Scopri la pianta</button>
-</article>`).join(""):"<p>Nessuna pianta trovata.</p>";
+<button onclick="openPlant('${esc(p.PlantID)}','plants')">
+Scopri la pianta
+</button>
+</article>
+`).join(""):"<p>Nessuna pianta trovata.</p>";
 }
 
-function openPlant(id){
+function openPlant(id,origin="plants"){
+
 const p=plants.find(x=>x.PlantID===id);
 if(!p)return;
-const refs=(p.LiteraryReferences||[]).filter(r=>r.Verified===true&&r.Quotation);
+
+detailOrigin=origin;
+
+const refs=plantReferences(p).filter(r=>
+r.Verified===true &&
+r.Quotation &&
+r.LiteraryWork &&
+r.Source
+);
+
 $("plantDetail").innerHTML=`
 ${photo(p,true)}
+
 <h2>${esc(p.CommonName)}</h2>
-<p><strong>Nome locale:</strong> ${esc(p.LocalName||"Da aggiungere")}</p>
+
+<p><strong>Nome locale:</strong>
+${esc(p.LocalName||"Contenuto da aggiungere")}</p>
+
 <p class="scientific">${esc(p.ScientificName)}</p>
-<div class="detail-box"><h3>Descrizione botanica</h3><p>${esc(p.BotanicalDescription)}</p></div>
-<div class="detail-box"><h3>Ruolo nell'ecosistema</h3><p>${esc(p.EcologicalRole)}</p></div>
-<div class="detail-box"><h3>Paesaggio e letteratura</h3>
-${refs.length?refs.map(r=>`<blockquote>${esc(r.Quotation)}</blockquote><p>${esc(r.LiteraryWork)} – ${esc(r.Author)}</p><small>Fonte: ${esc(r.Source)}</small>`).join(""):"<p>Citazione da aggiungere e verificare.</p>"}
+
+<div class="detail-box">
+<h3>Descrizione botanica</h3>
+<p>${esc(p.BotanicalDescription||"Contenuto da aggiungere")}</p>
 </div>
-<div class="detail-box"><h3>Conservazione</h3><p>${esc(p.ConservationMessage)}</p></div>
-<div class="detail-box"><h3>Posizione sul percorso</h3><p>${esc(p.LocationStatus||"Da mappare")}</p></div>`;
+
+<div class="detail-box">
+<h3>Ruolo nell'ecosistema</h3>
+<p>${esc(p.EcologicalRole||"Contenuto da aggiungere")}</p>
+</div>
+
+<div class="detail-box">
+<h3>Paesaggio e letteratura</h3>
+
+${refs.length?refs.map(r=>`
+<blockquote>${esc(r.Quotation)}</blockquote>
+<p><strong>${esc(r.LiteraryWork)}</strong></p>
+<p>Autore: ${esc(r.Author)}</p>
+<p>Fonte: ${esc(r.Source)}</p>
+`).join(""):"<p>Contenuto da aggiungere e verificare.</p>"}
+</div>
+
+<div class="detail-box">
+<h3>Temi letterari</h3>
+<p>${esc((p.LiteraryTheme||[]).join(", ")||"Contenuto da aggiungere")}</p>
+</div>
+
+<div class="detail-box">
+<h3>Conservazione</h3>
+<p>${esc(p.ConservationMessage||"Contenuto da aggiungere")}</p>
+</div>
+
+<div class="detail-box">
+<h3>Posizione sul percorso</h3>
+<p>${esc(p.LocationStatus||"Da mappare")}</p>
+<p>Le coordinate saranno pubblicate dopo verifica sul campo.</p>
+</div>
+`;
+
 show("detail");
 }
 
+function initLeafletMap(){
+
+if(leafletMap){
+setTimeout(()=>leafletMap.invalidateSize(),100);
+return;
+}
+
+if(typeof L==="undefined"){
+$("mapStatus").textContent=
+"La libreria cartografica non è disponibile. Controlla la connessione.";
+return;
+}
+
+leafletMap=L.map("leafletMap").setView(CAOS_REFERENCE,15);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:'&copy; OpenStreetMap contributors',
+maxZoom:19
+}
+).addTo(leafletMap);
+
+L.marker(CAOS_REFERENCE)
+.addTo(leafletMap)
+.bindPopup("<strong>Casa Museo Luigi Pirandello</strong><br>Punto di riferimento geografico");
+
+addVerifiedPlantMarkers();
+
+setTimeout(()=>leafletMap.invalidateSize(),200);
+}
+
+function addVerifiedPlantMarkers(){
+
+if(!leafletMap)return;
+
+plants.forEach(p=>{
+
+const lat=Number(p.Latitude);
+const lng=Number(p.Longitude);
+
+const valid=
+p.Latitude!==null &&
+p.Longitude!==null &&
+p.Latitude!=="" &&
+p.Longitude!=="" &&
+Number.isFinite(lat) &&
+Number.isFinite(lng) &&
+lat>=-90 && lat<=90 &&
+lng>=-180 && lng<=180 &&
+/verificat/i.test(p.LocationStatus||"");
+
+if(!valid)return;
+
+L.marker([lat,lng])
+.addTo(leafletMap)
+.bindPopup(`
+<strong>${esc(p.CommonName)}</strong><br>
+<button onclick="openPlant('${esc(p.PlantID)}','map')">
+Apri scheda botanica
+</button>
+`);
+});
+}
+
+function locateVisitor(){
+
+if(!navigator.geolocation){
+$("mapStatus").textContent=
+"La geolocalizzazione non è disponibile sul dispositivo.";
+return;
+}
+
+$("mapStatus").textContent=
+"Richiesta autorizzazione per la posizione...";
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+initLeafletMap();
+
+const lat=position.coords.latitude;
+const lng=position.coords.longitude;
+
+if(visitorMarker){
+leafletMap.removeLayer(visitorMarker);
+}
+
+visitorMarker=L.circleMarker([lat,lng],{
+radius:9,
+color:"#ffffff",
+weight:3,
+fillColor:"#3979d5",
+fillOpacity:1
+})
+.addTo(leafletMap)
+.bindPopup("La tua posizione")
+.openPopup();
+
+leafletMap.setView([lat,lng],17);
+
+$("mapStatus").textContent=
+"La tua posizione è visualizzata sulla mappa.";
+
+},
+
+error=>{
+
+const messages={
+1:"Permesso di posizione negato.",
+2:"Posizione non disponibile.",
+3:"Tempo di attesa scaduto."
+};
+
+$("mapStatus").textContent=
+messages[error.code]||"Impossibile rilevare la posizione.";
+
+},
+
+{enableHighAccuracy:true,timeout:15000}
+);
+}
+
+function resetMap(){
+
+initLeafletMap();
+leafletMap.setView(CAOS_REFERENCE,15);
+}
+
 function renderMap(){
+
 $("mapPlants").innerHTML=plants.map(p=>`
-<article class="plant-card"><h3>${esc(p.CommonName)}</h3>
+
+<article class="plant-card">
+
+${photo(p)}
+
+<h3>${esc(p.CommonName)}</h3>
+
 <p class="scientific">${esc(p.ScientificName)}</p>
-<p>${esc(p.LocationStatus||"Da mappare")}</p>
-<button onclick="openPlant('${esc(p.PlantID)}')">Scheda botanica</button></article>`).join("");
+
+<span class="tag">${esc(p.LocationStatus||"Da mappare")}</span>
+
+<p>Posizione botanica da verificare.</p>
+
+<button onclick="openPlant('${esc(p.PlantID)}','map')">
+Scheda botanica
+</button>
+
+</article>
+
+`).join("");
 }
 
 function renderLiterature(){
-const entries=plants.flatMap(p=>(p.LiteraryReferences||[])
-.filter(r=>r.Verified===true&&r.Quotation).map(r=>({p,r})));
-$("literaryList").innerHTML=entries.length?entries.map(e=>`
-<article class="plant-card"><blockquote>${esc(e.r.Quotation)}</blockquote>
-<p>${esc(e.r.LiteraryWork)} – ${esc(e.r.Author)}</p>
-<small>${esc(e.r.Source)}</small><h3>${esc(e.p.CommonName)}</h3>
-<button onclick="openPlant('${esc(e.p.PlantID)}')">Scopri la pianta</button></article>`).join(""):"<p>Nessuna citazione verificata presente nell'archivio.</p>";
+
+const entries=plants.flatMap(p=>
+plantReferences(p)
+.filter(r=>
+r.Verified===true &&
+r.Quotation &&
+r.LiteraryWork &&
+r.Source
+)
+.map(r=>({p,r}))
+);
+
+$("literaryList").innerHTML=entries.length?
+
+entries.map(e=>`
+
+<article class="plant-card">
+
+<blockquote>${esc(e.r.Quotation)}</blockquote>
+
+<p><strong>${esc(e.r.LiteraryWork)}</strong></p>
+<p>Autore: ${esc(e.r.Author)}</p>
+<p>Fonte: ${esc(e.r.Source)}</p>
+
+<h3>${esc(e.p.CommonName)}</h3>
+
+<button onclick="openPlant('${esc(e.p.PlantID)}','literature')">
+Scopri la pianta
+</button>
+
+</article>
+
+`).join(""):
+
+"<p class='empty'>Nessuna citazione verificata presente nell'archivio.</p>";
+}
+
+function populateThemes(){
+
+const themes=new Set();
+
+plants.forEach(p=>{
+if(Array.isArray(p.LiteraryTheme)){
+p.LiteraryTheme.forEach(t=>themes.add(t));
+}
+});
+
+$("themeFilter").innerHTML=
+'<option value="">Tutti i temi letterari</option>'+
+[...themes].sort().map(t=>
+`<option value="${esc(t)}">${esc(t)}</option>`
+).join("");
 }
 
 async function loadPlants(){
+
 try{
+
 const response=await fetch("./data/plants.json");
-if(!response.ok)throw new Error("Archivio non disponibile");
+
+if(!response.ok){
+throw new Error("Archivio non disponibile");
+}
+
 const data=await response.json();
-if(!Array.isArray(data))throw new Error("Formato non valido");
+
+if(!Array.isArray(data)){
+throw new Error("Formato non valido");
+}
+
 plants=data.filter(p=>p.IsPublished===true);
-renderCatalogue();
-renderMap();
-}catch(e){
-$("count").textContent="Impossibile caricare il catalogo. Controlla data/plants.json.";
+
+// Archivio letterario separato e facoltativo.
+// Se non esiste, nessuna citazione viene inventata.
+try{
+
+const literaryResponse=await fetch("./data/literary-references.json");
+
+if(literaryResponse.ok){
+const literaryData=await literaryResponse.json();
+
+if(Array.isArray(literaryData)){
+references=literaryData;
 }
 }
 
-["search","localFilter"].forEach(id=>$(id).addEventListener("input",renderCatalogue));
-["categoryFilter","quoteFilter"].forEach(id=>$(id).addEventListener("change",renderCatalogue));
+}catch(e){
+references=[];
+}
+
+populateThemes();
+renderCatalogue();
+renderMap();
+renderLiterature();
+
+$("count").textContent=
+plants.length+" specie caricate correttamente.";
+
+}catch(e){
+
+$("count").textContent=
+"Impossibile caricare il catalogo. Controlla data/plants.json.";
+
+$("catalogue").innerHTML=
+"<p>Archivio botanico non disponibile.</p>";
+
+}
+}
+
+["search","localFilter"].forEach(id=>
+$(id).addEventListener("input",renderCatalogue)
+);
+
+["categoryFilter","quoteFilter","themeFilter"].forEach(id=>
+$(id).addEventListener("change",renderCatalogue)
+);
+
 loadPlants();
 </script>
+
 </body>
 </html>
