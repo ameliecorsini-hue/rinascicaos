@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#43583d">
 <title>RinasciCaos – Rilievo GPS</title>
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -21,23 +22,15 @@ color:white;
 text-align:center;
 padding:25px 15px
 }
-main{
-max-width:650px;
-margin:auto;
-padding:18px
-}
+main{max-width:650px;margin:auto;padding:18px}
 .box{
 background:#fffdf7;
 padding:20px;
 border-radius:14px;
 margin:15px 0
 }
-label{
-display:block;
-font-weight:bold;
-margin:12px 0 5px
-}
-select,input{
+label{display:block;font-weight:bold;margin:12px 0 5px}
+select{
 width:100%;
 padding:13px;
 border:1px solid #bbb;
@@ -69,6 +62,7 @@ overflow-wrap:anywhere
 footer{text-align:center;padding:20px;color:#555}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -95,8 +89,7 @@ Seleziona una pianta per iniziare.
 <h2>Acquisizione GPS</h2>
 
 <p>
-Posizionati vicino alla pianta e attendi che il tablet
-rilevi la posizione.
+Posizionati vicino alla pianta e attendi il rilevamento.
 </p>
 
 <button id="gpsButton" onclick="getGPS()">
@@ -121,15 +114,20 @@ CONFERMA E REGISTRA POSIZIONE
 
 <div class="box">
 <h2>Registro dei rilevamenti</h2>
+
 <p id="counter">Caricamento...</p>
+
+<p id="storageStatus" class="status">
+Salvataggio automatico attivo.
+</p>
 
 <button onclick="downloadJSON()">
 SCARICA REGISTRO GPS JSON
 </button>
 
 <p class="status">
-Il file scaricato conterrà le coordinate rilevate.
-Potrai successivamente caricarlo nel repository GitHub.
+I dati vengono conservati nella memoria locale
+del browser di questo dispositivo.
 </p>
 </div>
 
@@ -140,12 +138,59 @@ RinasciCaos – Le radici di Pirandello
 </footer>
 
 <script>
+
 let locations=[];
 let plants=[];
 let currentPosition=null;
 
+const STORAGE_KEY="rinascicaos_gps_v1";
+
 const $=id=>document.getElementById(id);
 
+// Recupera i dati salvati sul dispositivo
+function loadLocalData(){
+
+try{
+
+const saved=localStorage.getItem(STORAGE_KEY);
+
+return saved?JSON.parse(saved):[];
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+// Salva automaticamente il registro
+function persistData(){
+
+try{
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(locations)
+);
+
+$("storageStatus").textContent=
+"✓ Registro salvato automaticamente su questo dispositivo.";
+
+return true;
+
+}catch(e){
+
+$("storageStatus").textContent=
+"Errore nel salvataggio locale. Scarica subito il JSON.";
+
+return false;
+
+}
+
+}
+
+// Carica archivio e rilevamenti precedenti
 async function loadData(){
 
 try{
@@ -166,6 +211,24 @@ if(!Array.isArray(locations)||!Array.isArray(plants)){
 throw new Error("Archivio non valido");
 }
 
+// Ripristina i rilevamenti locali
+const saved=loadLocalData();
+
+saved.forEach(old=>{
+
+const index=locations.findIndex(
+x=>x.PlantID===old.PlantID
+);
+
+if(index!==-1){
+locations[index]={
+...locations[index],
+...old
+};
+}
+
+});
+
 const select=$("plant");
 
 select.innerHTML=
@@ -173,27 +236,40 @@ select.innerHTML=
 
 locations.forEach(location=>{
 
-const plant=plants.find(p=>p.PlantID===location.PlantID);
+const p=plants.find(
+x=>x.PlantID===location.PlantID
+);
 
-if(!plant)return;
+if(!p)return;
 
 const option=document.createElement("option");
 option.value=location.PlantID;
-option.textContent=plant.CommonName;
+option.textContent=p.CommonName;
+
 select.appendChild(option);
 
 });
 
 select.addEventListener("change",()=>{
+
 currentPosition=null;
 $("saveButton").disabled=true;
 $("gpsResult").hidden=true;
 
-const p=plants.find(p=>p.PlantID===select.value);
+const p=plants.find(
+x=>x.PlantID===select.value
+);
+
+const location=locations.find(
+x=>x.PlantID===select.value
+);
 
 $("plantInfo").textContent=p?
-p.CommonName+" – "+p.ScientificName:
+p.CommonName+" – "+p.ScientificName+
+(location&&location.Latitude!==null?
+" | Posizione già registrata":" | Da rilevare"):
 "Seleziona una pianta.";
+
 });
 
 updateCounter();
@@ -204,18 +280,21 @@ $("status").textContent=
 "Errore nel caricamento degli archivi. Controlla i file nella cartella data.";
 
 }
+
 }
 
+// Acquisizione GPS
 function getGPS(){
 
 if(!$("plant").value){
-$("status").textContent="Prima seleziona una pianta.";
+$("status").textContent=
+"Prima seleziona una pianta.";
 return;
 }
 
 if(!navigator.geolocation){
 $("status").textContent=
-"Il dispositivo non supporta la geolocalizzazione.";
+"Geolocalizzazione non disponibile.";
 return;
 }
 
@@ -223,7 +302,7 @@ currentPosition=null;
 $("saveButton").disabled=true;
 
 $("status").textContent=
-"Rilevamento in corso. Attendi qualche secondo...";
+"Rilevamento in corso. Attendi...";
 
 navigator.geolocation.getCurrentPosition(
 
@@ -236,21 +315,27 @@ Accuracy:position.coords.accuracy
 };
 
 $("coordinates").textContent=
-"Latitudine: "+currentPosition.Latitude.toFixed(6)+
-" | Longitudine: "+currentPosition.Longitude.toFixed(6);
+"Latitudine: "+
+currentPosition.Latitude.toFixed(6)+
+" | Longitudine: "+
+currentPosition.Longitude.toFixed(6);
 
 $("accuracy").textContent=
-"Precisione indicata dal GPS: circa "+
+"Precisione indicata: circa "+
 Math.round(currentPosition.Accuracy)+" metri.";
 
 $("gpsResult").hidden=false;
 
 if(currentPosition.Accuracy>20){
+
 $("status").textContent=
-"Attenzione: precisione superiore a 20 metri. Prova a ripetere il rilevamento in un punto più aperto.";
+"Precisione superiore a 20 metri. Ti consigliamo di ripetere il rilevamento.";
+
 }else{
+
 $("status").textContent=
-"Posizione acquisita. Controlla che corrisponda alla pianta selezionata.";
+"Posizione acquisita. Verifica che corrisponda alla pianta.";
+
 }
 
 $("saveButton").disabled=false;
@@ -260,7 +345,7 @@ $("saveButton").disabled=false;
 error=>{
 
 const messages={
-1:"Autorizzazione GPS negata. Consenti la posizione al browser.",
+1:"Autorizzazione GPS negata.",
 2:"Posizione non disponibile. Riprova all'aperto.",
 3:"Tempo scaduto. Riprova."
 };
@@ -275,24 +360,41 @@ enableHighAccuracy:true,
 timeout:20000,
 maximumAge:0
 }
+
 );
+
 }
 
+// Conferma e salvataggio
 function saveLocation(){
 
 const id=$("plant").value;
 
 if(!id||!currentPosition){
-$("status").textContent="Prima acquisisci una posizione GPS.";
+$("status").textContent=
+"Prima acquisisci una posizione GPS.";
 return;
 }
 
-const location=locations.find(x=>x.PlantID===id);
+if(currentPosition.Accuracy>50){
+
+$("status").textContent=
+"Precisione troppo bassa. Ripeti il rilevamento prima di confermare.";
+
+return;
+
+}
+
+const location=locations.find(
+x=>x.PlantID===id
+);
 
 if(!location)return;
 
+const p=plants.find(x=>x.PlantID===id);
+
 const confirmed=confirm(
-"Confermi che questa posizione corrisponde alla pianta selezionata?"
+"Confermi la posizione GPS per "+p.CommonName+"?"
 );
 
 if(!confirmed)return;
@@ -300,18 +402,26 @@ if(!confirmed)return;
 location.Latitude=currentPosition.Latitude;
 location.Longitude=currentPosition.Longitude;
 location.Accuracy=currentPosition.Accuracy;
+
 location.LocationStatus="Rilevata - da verificare";
 location.IsVerified=false;
 location.RecordedAt=new Date().toISOString();
 
-$("status").textContent=
-"Posizione registrata nel registro temporaneo. Ricordati di scaricare il JSON.";
+const saved=persistData();
+
+$("status").textContent=saved?
+"✓ Posizione registrata e salvata sul dispositivo.":
+"Posizione registrata temporaneamente. Scarica il JSON.";
 
 currentPosition=null;
 $("saveButton").disabled=true;
+$("gpsResult").hidden=true;
+
 updateCounter();
+
 }
 
+// Contatore
 function updateCounter(){
 
 const count=locations.filter(
@@ -323,6 +433,7 @@ count+" posizioni registrate su "+locations.length+".";
 
 }
 
+// Esportazione JSON
 function downloadJSON(){
 
 const blob=new Blob(
@@ -335,14 +446,17 @@ const url=URL.createObjectURL(blob);
 const a=document.createElement("a");
 a.href=url;
 a.download="trail-locations.json";
-a.click();
 
-URL.revokeObjectURL(url);
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+setTimeout(()=>URL.revokeObjectURL(url),1000);
 
 }
 
 loadData();
-</script>
 
+</script>
 </body>
 </html>
