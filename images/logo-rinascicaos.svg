@@ -1,0 +1,21 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="70" fill="#43583d"/>
+<g fill="none" stroke="#a47753" stroke-width="19" stroke-linecap="round">
+<path d="M256 330 Q246 260 258 180"/>
+<path d="M255 260 Q205 210 160 185"/>
+<path d="M257 235 Q310 190 355 155"/>
+<path d="M250 290 Q195 260 155 260"/>
+</g>
+<g fill="#a8b98d">
+<ellipse cx="155" cy="170" rx="72" ry="34" transform="rotate(35 155 170)"/>
+<ellipse cx="230" cy="115" rx="75" ry="34" transform="rotate(-15 230 115)"/>
+<ellipse cx="330" cy="145" rx="75" ry="34" transform="rotate(-35 330 145)"/>
+<ellipse cx="365" cy="220" rx="68" ry="32" transform="rotate(30 365 220)"/>
+<ellipse cx="170" cy="250" rx="65" ry="30" transform="rotate(-15 170 250)"/>
+<ellipse cx="275" cy="205" rx="73" ry="35" transform="rotate(15 275 205)"/>
+</g>
+<path d="M256 330 Q250 355 230 365 H282" fill="none" stroke="#a47753" stroke-width="17" stroke-linecap="round"/>
+<text x="256" y="425" text-anchor="middle" font-family="Georgia,serif" font-size="43" font-weight="bold" fill="#fffdf7">RinasciCaos</text>
+<text x="256" y="466" text-anchor="middle" font-family="Georgia,serif" font-size="17" letter-spacing="3" fill="#e5e6d6">LE RADICI DI PIRANDELLO</text>
+</svg>
