@@ -1,36 +1,69 @@
 
-const CACHE_NAME = "rinascicaos-v1";
+const CACHE_NAME = "rinascicaos-v2";
 
 const APP_FILES = [
   "./",
   "./index.html",
   "./manifest.json",
   "./data/plants.json",
-  "./data/trail-locations.json"
+  "./data/trail-locations.json",
+
+  "./images/P001.png",
+  "./images/P002.png",
+  "./images/P003.png",
+  "./images/P004.png",
+  "./images/P005.png",
+  "./images/P006.png",
+  "./images/P007.png",
+  "./images/P008.png",
+  "./images/P009.png",
+  "./images/P010.png",
+  "./images/P011.png",
+  "./images/P012.png",
+  "./images/P013.png",
+  "./images/P014.png",
+  "./images/P015.png"
 ];
 
 self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache =>
-      cache.addAll(APP_FILES)
-    )
-  );
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
 
-  self.skipWaiting();
+      for (const file of APP_FILES) {
+        try {
+          await cache.add(file);
+        } catch (error) {
+          console.warn(
+            "Risorsa non memorizzata:",
+            file,
+            error
+          );
+        }
+      }
+
+      await self.skipWaiting();
+    })()
+  );
 });
 
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key.startsWith("rinascicaos-") && key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      )
-    )
-  );
+    (async () => {
+      const keys = await caches.keys();
 
-  self.clients.claim();
+      await Promise.all(
+        keys
+          .filter(key =>
+            key.startsWith("rinascicaos-") &&
+            key !== CACHE_NAME
+          )
+          .map(key => caches.delete(key))
+      );
+
+      await self.clients.claim();
+    })()
+  );
 });
 
 self.addEventListener("fetch", event => {
@@ -43,26 +76,40 @@ self.addEventListener("fetch", event => {
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(request).then(cached => {
+    (async () => {
+      const cached = await caches.match(request);
+
       if (cached) return cached;
 
-      return fetch(request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
+      try {
+        const response = await fetch(request);
 
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(request, copy);
-          });
+        if (response.ok) {
+          const cache = await caches.open(CACHE_NAME);
+
+          await cache.put(request, response.clone());
         }
 
         return response;
-      }).catch(() => {
+
+      } catch (error) {
+
         if (request.mode === "navigate") {
-          return caches.match("./index.html");
+          const fallback = await caches.match("./index.html");
+
+          if (fallback) return fallback;
         }
 
-        throw new Error("Contenuto non disponibile offline");
-      });
-    })
+        return new Response(
+          "Contenuto non disponibile offline.",
+          {
+            status: 503,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8"
+            }
+          }
+        );
+      }
+    })()
   );
 });
