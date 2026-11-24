@@ -623,6 +623,21 @@ $(id).addEventListener("change",renderCatalogue)
 
 loadPlants();
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => {
+        console.log("RinasciCaos: Service Worker attivo");
+      })
+      .catch(error => {
+        console.error("Errore Service Worker:", error);
+      });
+  });
+}
+
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
